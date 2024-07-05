@@ -1,9 +1,15 @@
+import NewNote, { links as newNoteLinks } from "~/components/NewNote";
+
 function NotesPage() {
   return (
     <main>
-      <h1>My Notes</h1>
+      <NewNote />
     </main>
   );
 }
 
 export default NotesPage;
+
+export const links = () => {
+  return [...newNoteLinks()];
+};
