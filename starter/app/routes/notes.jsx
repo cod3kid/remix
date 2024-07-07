@@ -1,11 +1,13 @@
 import { redirect } from "@remix-run/node";
 import NewNote, { links as newNoteLinks } from "~/components/NewNote";
+import NoteList, { links as noteListLinks } from "~/components/NoteList";
 import { getStoredNotes, storeNotes } from "~/data/notes";
 
 function NotesPage() {
   return (
     <main>
       <NewNote />
+      <NoteList />
     </main>
   );
 }
@@ -26,7 +28,7 @@ export const action = async ({ request }) => {
 };
 
 export const links = () => {
-  return [...newNoteLinks()];
+  return [...newNoteLinks(), ...noteListLinks()];
 };
 
 export default NotesPage;
