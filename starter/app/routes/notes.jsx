@@ -27,6 +27,13 @@ export const action = async ({ request }) => {
     content: formData.get("content"),
   };
 
+  if (noteData.title.trim().length < 5) {
+    return {
+      message:
+        "Invalid Title: Title length should be atleast 5 characters long",
+    };
+  }
+
   const existingNotes = await getStoredNotes();
   const updatedNotes = [...existingNotes, noteData];
   await storeNotes(updatedNotes);
