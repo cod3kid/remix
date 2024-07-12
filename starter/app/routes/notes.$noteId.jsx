@@ -1,4 +1,5 @@
-import { Link, useLoaderData } from "@remix-run/react";
+import { json } from "@remix-run/node";
+import { Link, useCatch, useLoaderData } from "@remix-run/react";
 import { getStoredNotes } from "~/data/notes";
 
 import styles from "~/styles/note-details.css";
@@ -22,7 +23,26 @@ export const loader = async ({ params }) => {
   const noteId = params.noteId;
   const notes = await getStoredNotes();
 
-  return notes.find((note) => note.id === noteId);
+  const selectedNote = notes.find((note) => note.id === noteId);
+
+  if (!selectedNote) {
+    throw json(
+      { message: "Note not found!" },
+      { status: 404, statusText: "Not Found" }
+    );
+  }
+
+  return selectedNote;
+};
+
+export const CatchBoundary = () => {
+  const caughtResponse = useCatch();
+
+  return (
+    <main>
+      <p className="error">{caughtResponse.data.message}</p>
+    </main>
+  );
 };
 
 export function links() {
