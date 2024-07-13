@@ -48,3 +48,10 @@ export const CatchBoundary = () => {
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
+
+export const meta = ({ data }) => {
+  return {
+    title: data.title,
+    description: "Get all the notes",
+  };
+};

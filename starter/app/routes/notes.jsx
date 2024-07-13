@@ -81,4 +81,11 @@ export const CatchBoundary = () => {
   );
 };
 
+export const meta = () => {
+  return {
+    title: "All Notes",
+    description: "Get all the notes",
+  };
+};
+
 export default NotesPage;
