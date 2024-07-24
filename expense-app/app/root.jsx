@@ -6,9 +6,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-
 import sharedStyles from "~/styles/shared.css";
-import MainHeader from "./components/navigation/MainHeader";
+
 export const meta = () => ({
   charset: "utf-8",
   title: "New Remix App",
@@ -23,7 +22,6 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <MainHeader />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
