@@ -1,30 +1,23 @@
 // /expenses => shared layout
 
-const DUMMY_EXPENSES = [
-  {
-    id: 'e1',
-    title: 'First Expense',
-    amount: 12.99,
-    date: new Date().toISOString(),
-  },
-  {
-    id: 'e2',
-    title: 'Second Expense',
-    amount: 16.99,
-    date: new Date().toISOString(),
-  },
-];
-
-import { Outlet } from '@remix-run/react';
-import ExpensesList from '~/components/expenses/ExpensesList';
+import { Outlet, useLoaderData } from "@remix-run/react";
+import ExpensesList from "~/components/expenses/ExpensesList";
+import { getExpenses } from "~/data/expenses.server";
 
 export default function ExpensesLayout() {
+  const expenses = useLoaderData();
+
   return (
     <>
       <Outlet />
       <main>
-        <ExpensesList expenses={DUMMY_EXPENSES} />
+        <ExpensesList expenses={expenses} />
       </main>
     </>
   );
 }
+
+export const loader = async ({ request }) => {
+  const expenses = await getExpenses();
+  return expenses;
+};

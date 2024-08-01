@@ -13,3 +13,17 @@ export const addExpense = async (expenseData) => {
     console.log(err);
   }
 };
+
+export const getExpenses = async () => {
+  try {
+    const expenses = await prisma.expense.findMany({
+      orderBy: {
+        date: "desc",
+      },
+    });
+
+    return expenses;
+  } catch (err) {
+    console.log(err);
+  }
+};
