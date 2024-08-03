@@ -21,8 +21,8 @@ export default function UpdateExpensesPage() {
   );
 }
 
-export const loader = async ({ params }) => {
-  const id = params.id;
-  const expense = await getExpense(id);
-  return expense;
-};
+// export const loader = async ({ params }) => {
+//   const id = params.id;
+//   const expense = await getExpense(id);
+//   return expense;
+// };

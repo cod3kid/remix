@@ -3,7 +3,9 @@ import {
   Link,
   useActionData,
   useLoaderData,
+  useMatches,
   useNavigation,
+  useParams,
   useSubmit,
 } from "@remix-run/react";
 
@@ -13,7 +15,15 @@ function ExpenseForm() {
   const submit = useSubmit();
   const navigation = useNavigation();
   const isSubmitting = navigation.state !== "idle";
-  const expenseData = useLoaderData();
+  // const expenseData = useLoaderData();
+  const matches = useMatches();
+
+  const params = useParams();
+  console.log(matches);
+  const data = matches.find(
+    (match) => match.id === "routes/__app/expenses"
+  ).data;
+  const expenseData = data.find((expense) => expense.id === params.id);
   const defaultValues = expenseData
     ? {
         title: expenseData.title,
