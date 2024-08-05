@@ -5,7 +5,11 @@ import { useNavigate } from "@remix-run/react";
 
 import ExpenseForm from "~/components/expenses/ExpenseForm";
 import Modal from "~/components/util/Modal";
-import { getExpense, updateExpense } from "~/data/expenses.server";
+import {
+  deleteExpense,
+  getExpense,
+  updateExpense,
+} from "~/data/expenses.server";
 import { validateExpenseInput } from "~/data/validation.server";
 
 export default function UpdateExpensesPage() {
@@ -32,15 +36,21 @@ export default function UpdateExpensesPage() {
 export const action = async ({ params, request }) => {
   const id = params.id;
   const formData = await request.formData();
+  const method = request.method;
   const expenseData = Object.fromEntries(formData);
 
-  try {
-    validateExpenseInput(expenseData);
-  } catch (err) {
-    return err;
+  if (method === "DELETE") {
+    await deleteExpense(id);
+    return redirect("/expenses");
+  } else {
+    try {
+      validateExpenseInput(expenseData);
+    } catch (err) {
+      return err;
+    }
+
+    await updateExpense(id, expenseData);
+
+    return redirect("/expenses");
   }
-
-  await updateExpense(id, expenseData);
-
-  return redirect("/expenses");
 };
