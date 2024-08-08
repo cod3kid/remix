@@ -38,7 +38,7 @@ const Document = ({ title, children }) => {
 
 export default function App() {
   return (
-    <Document title>
+    <Document>
       <Outlet />
     </Document>
   );
