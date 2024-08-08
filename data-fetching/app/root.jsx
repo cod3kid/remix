@@ -61,6 +61,23 @@ export const CatchBoundary = () => {
   );
 };
 
+export const ErrorBoundary = ({ error }) => {
+  return (
+    <Document title={"An error occurred"}>
+      <main>
+        <Error title={"An error occurred"}>
+          <p>
+            {error.message || "Something went wrong. please try again later."}
+          </p>
+          <p>
+            Back to <Link to="/">safety</Link>.
+          </p>
+        </Error>
+      </main>
+    </Document>
+  );
+};
+
 export function links() {
   return [{ rel: "stylesheet", href: sharedStyles }];
 }

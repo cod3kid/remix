@@ -10,7 +10,7 @@ export const addExpense = async (expenseData) => {
       },
     });
   } catch (err) {
-    console.log(err);
+    throw Error("Failed to create an expense.");
   }
 };
 
@@ -24,7 +24,7 @@ export const getExpenses = async () => {
 
     return expenses;
   } catch (err) {
-    console.log(err);
+    throw Error("Failed to get the list of expenses.");
   }
 };
 
@@ -38,7 +38,7 @@ export const getExpense = async (id) => {
 
     return expense;
   } catch (err) {
-    console.log(err);
+    throw Error("Failed to get an expense.");
   }
 };
 
@@ -57,7 +57,7 @@ export const updateExpense = async (id, expenseData) => {
 
     return expense;
   } catch (err) {
-    console.log(err);
+    throw Error("Failed to update an expense.");
   }
 };
 
@@ -72,5 +72,6 @@ export const deleteExpense = async (id) => {
     return expense;
   } catch (err) {
     console.log(err);
+    throw Error("Failed to delete an expense.");
   }
 };
