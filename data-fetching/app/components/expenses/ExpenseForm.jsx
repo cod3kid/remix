@@ -19,11 +19,14 @@ function ExpenseForm() {
   const matches = useMatches();
 
   const params = useParams();
-  console.log(matches);
   const data = matches.find(
     (match) => match.id === "routes/__app/expenses"
   ).data;
   const expenseData = data.find((expense) => expense.id === params.id);
+
+  if (params.id && !expenseData) {
+    return <p>Error</p>;
+  }
   const defaultValues = expenseData
     ? {
         title: expenseData.title,
