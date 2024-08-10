@@ -1,28 +1,26 @@
 // /expenses/analysis
 
-const DUMMY_EXPENSES = [
-  {
-    id: 'e1',
-    title: 'First Expense',
-    amount: 12.99,
-    date: new Date().toISOString(),
-  },
-  {
-    id: 'e2',
-    title: 'Second Expense',
-    amount: 16.99,
-    date: new Date().toISOString(),
-  },
-];
-
-import ExpenseStatistics from '~/components/expenses/ExpenseStatistics';
-import Chart from '~/components/expenses/Chart';
+import ExpenseStatistics from "~/components/expenses/ExpenseStatistics";
+import Chart from "~/components/expenses/Chart";
+import { getExpense, getExpenses } from "~/data/expenses.server";
+import { useLoaderData } from "@remix-run/react";
 
 export default function ExpensesAnalysisPage() {
+  const expenses = useLoaderData();
+  const hasExpenses = expenses.length;
+
+  if (!hasExpenses) {
+    return <p>No Expenses Found</p>;
+  }
   return (
     <main>
-      <Chart expenses={DUMMY_EXPENSES} />
-      <ExpenseStatistics expenses={DUMMY_EXPENSES} />
+      <Chart expenses={expenses} />
+      <ExpenseStatistics expenses={expenses} />
     </main>
   );
 }
+
+export const loader = async () => {
+  const expenses = await getExpenses();
+  return expenses;
+};
