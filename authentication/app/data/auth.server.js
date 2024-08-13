@@ -1,5 +1,5 @@
 import { prisma } from "./database.server";
-import { hash } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 
 export async function signUp({ email, password }) {
   const existingUser = await prisma.user.findFirst({ where: { email } });
@@ -18,4 +18,22 @@ export async function signUp({ email, password }) {
       password: passwordHash,
     },
   });
+}
+
+export async function login({ email, password }) {
+  const existingUser = await prisma.user.findFirst({ where: { email } });
+
+  if (!existingUser) {
+    const error = new Error("Invalid Credentials");
+    error.status = 401;
+    throw error;
+  }
+
+  const passwordCorrect = await compare(password, existingUser.password);
+
+  if (!passwordCorrect) {
+    const error = new Error("Invalid Credentials");
+    error.status = 401;
+    throw error;
+  }
 }
