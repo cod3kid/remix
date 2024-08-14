@@ -1,6 +1,6 @@
 import { prisma } from "./database.server";
 import { compare, hash } from "bcryptjs";
-import { createCookieSessionStorage } from "@remix-run/node";
+import { createCookieSessionStorage, redirect } from "@remix-run/node";
 
 const SESSION_SECRET = process.env.SESSION_SECRET;
 const sessionStorage = createCookieSessionStorage({
@@ -13,6 +13,17 @@ const sessionStorage = createCookieSessionStorage({
   },
 });
 
+const createUserSession = async (userId, redirectPath) => {
+  const session = await sessionStorage.getSession();
+  session.set("userId", userId);
+
+  return redirect(redirectPath, {
+    headers: {
+      "Set-Cookie": await sessionStorage.commitSession(session),
+    },
+  });
+};
+
 export async function signUp({ email, password }) {
   const existingUser = await prisma.user.findFirst({ where: { email } });
 
@@ -24,12 +35,14 @@ export async function signUp({ email, password }) {
 
   const passwordHash = await hash(password, 12);
 
-  await prisma.user.create({
+  const user = await prisma.user.create({
     data: {
       email,
       password: passwordHash,
     },
   });
+
+  return createUserSession(user.id, "/expenses");
 }
 
 export async function login({ email, password }) {
@@ -48,4 +61,6 @@ export async function login({ email, password }) {
     error.status = 401;
     throw error;
   }
+
+  return createUserSession(existingUser.id, "/expenses");
 }
