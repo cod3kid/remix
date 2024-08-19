@@ -1,7 +1,8 @@
-import { Outlet } from '@remix-run/react';
+import { Outlet } from "@remix-run/react";
 
-import MainHeader from '~/components/navigation/MainHeader';
-import marketingStyles from '~/styles/marketing.css';
+import MainHeader from "~/components/navigation/MainHeader";
+import { getUserFromSession } from "~/data/auth.server";
+import marketingStyles from "~/styles/marketing.css";
 
 export default function MarketingLayout() {
   return (
@@ -13,5 +14,9 @@ export default function MarketingLayout() {
 }
 
 export function links() {
-  return [{ rel: 'stylesheet', href: marketingStyles }];
+  return [{ rel: "stylesheet", href: marketingStyles }];
 }
+
+export const loader = ({ request }) => {
+  return getUserFromSession(request);
+};
