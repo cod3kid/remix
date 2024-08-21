@@ -56,6 +56,8 @@ export const requireUserSession = async (request) => {
   if (!userId) {
     throw redirect("/auth");
   }
+
+  return userId;
 };
 
 export async function signUp({ email, password }) {
