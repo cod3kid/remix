@@ -20,3 +20,9 @@ export function links() {
 export const loader = ({ request }) => {
   return getUserFromSession(request);
 };
+
+export const headers = () => {
+  return {
+    "Cache-Control": "max-age=3600", // 60 minutes
+  };
+};

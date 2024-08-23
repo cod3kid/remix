@@ -41,3 +41,9 @@ export async function action({ request }) {
 export function links() {
   return [{ rel: "stylesheet", href: authStyles }];
 }
+
+export const headers = ({ parentHeaders }) => {
+  return {
+    "Cache-Control": parentHeaders.get("Cache-Control"), // 60 minutes
+  };
+};
